@@ -125,11 +125,25 @@ ChainedHashTable.prototype = {
      * Complexity of lookup is O(1).
      *
      * @param {Object} data the element to look for in the hash table.
-     * @return {boolean} true if the element was found, false otherwise.
+     * @return {Object} the element data if it is found, otherwise null.
      * @this {ChainedHashTable}
      */
-    lookup: function () {
-        // TODO
+    lookup: function (data) {
+        // Hash the key.
+        var bucket = this._hashFunction(data) % this._numberOfBuckets;
+
+        // Keep track of the element in the list we're comparing to.
+        var current = null;
+
+        // Search for the data in the bucket.
+        for (current = this._table.item(bucket); current; current = current.next) {
+            if (this._matchFunction(data, current.data)) {
+                // Pass the data from the table back.
+                return current.data;
+            }
+        }
+
+        return null;
     },
 
     /**
