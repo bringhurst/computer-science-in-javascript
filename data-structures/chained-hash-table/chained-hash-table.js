@@ -1,3 +1,6 @@
+/*global LinkedList */
+/*jslint onevar: false, nomen: false */
+
 /*
  * Chained hash table implementation in JavaScript
  * Copyright (c) 2010 Jonathan Bringhurst
@@ -25,7 +28,8 @@
  * Constructor for a chained hash table implementation in JavaScript.
  *
  * This constructor has complexity of O(m), where m is the number of buckets in
- * the chained hash table.
+ * the chained hash table. The initilization runs in a constant amount of time
+ * except for the initialization of buckets.
  *
  * @param {number} numberOfBuckets the number of buckets to create.
  * @param {Function} hashFunction a hash function to use for creating keys.
@@ -33,9 +37,23 @@
  * @constructor
  */
 function ChainedHashTable(numberOfBuckets, hashFunction, compareFunction) {
-    this.numberOfBuckets = numberOfBuckets;
-    this.hashFunction = hashFunction;
-    this.compareFunction = compareFunction;
+    this._numberOfBuckets = numberOfBuckets;
+    this._hashFunction = hashFunction;
+    this._compareFunction = compareFunction;
+
+    // A new hash table will not contain any elements.
+    this._size = 0;
+
+    // Setup the array of buckets.
+    this._table = new LinkedList();
+
+    // Initialize each bucket.
+    var i = this._numberOfBuckets;
+
+    while (i > 0) {
+        this._table.add(new LinkedList());
+        i = i - 1;
+    }
 }
 
 ChainedHashTable.prototype = {
@@ -44,37 +62,24 @@ ChainedHashTable.prototype = {
     constructor: ChainedHashTable,
     
     /**
-     * Release references to external objects.
-     *
-     * Complexity of destroy is O(m), where m is the number of buckets.
-     *
-     * @this {ChainedHashTable}
-     */
-    destroy: function () {
-        if (this.numberOfBuckets) {
-            delete this.numberOfBuckets;
-        }
-
-        if (this.hashFunction) {
-            delete this.hashFunction;
-        }
-
-        if (this.compareFunction) {
-            delete this.compareFunction;
-        }
-    },
-    
-    /**
      * Insert an element into the chained hash table.
      *
      * Complexity of insert is O(1).
      *
      * @param {Object} data the data to be inserted.
-     * @return {boolean} true if the insertion was successful, false otherwise.
      * @this {ChainedHashTable}
      */
     insert: function (data) {
-        // TODO
+        // Do nothing if the element is already in the hash table.
+        if (this.lookup(data)) {
+            return;
+        }
+
+        // Hash the key.
+        var bucket = this._hashFunction(data) % this._numberOfBuckets;
+
+        // Insert the data into the bucket.
+        this._table.item(bucket).add(data);
     },
 
     /**
@@ -83,11 +88,34 @@ ChainedHashTable.prototype = {
      * Complexity of remove is O(1).
      *
      * @param {Object} data the element to delete from the hash table.
-     * @return {Object} a reference to the element that was removed.
+     * @return {boolean} true if the element was removed, false otherwise.
      * @this {ChainedHashTable}
      */
     remove: function (data) {
-        // TODO
+        // Hash the key.
+        var bucket = this._hashFunction(data) % this._numberOfBuckets;
+
+        // Keep track of the element in the list we're comparing to.
+        var current = null;
+
+        // Keep track of the previous element as we search.
+        var previous = null;
+
+        for (current = this._table.item(bucket); current; current = current.next) {
+            if (this._matchFunction(data, current.data)) {
+                // Remove the data from the bucket.
+                if (this._table.removeNext(previous)) {
+                    this._size = this._size = 1;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            previous = current;
+        }
+
+        return false;
     },
 
     /**
@@ -111,6 +139,6 @@ ChainedHashTable.prototype = {
      * @this {ChainedHashTable}
      */
     size: function () {
-        // TODO
+        return this._size;
     }
 };
