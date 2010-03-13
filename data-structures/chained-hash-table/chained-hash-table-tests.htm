@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+    <head>
+        <title>Chained Hash Table Tests</title>
+        <!-- Combo-handled YUI CSS files: -->
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.7.0/build/logger/assets/logger.css&amp;2.7.0/build/yuitest/assets/testlogger.css">
+        <!-- Combo-handled YUI JS files: -->
+        <script src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&amp;2.7.0/build/logger/logger-min.js&amp;2.7.0/build/yuitest/yuitest-min.js"></script>
+        <script src="../linked-list/linked-list.js"></script>
+        <script src="chained-hash-table.js"></script>
+    </head>
+    <body>
+        <h1>Chained Hash Table Tests</h1>
+        <script>
+/*global YAHOO, ChainedHashTable */
+
+YAHOO.namespace("test");
+
+YAHOO.test.ChainedHashTable = (function () {
+    
+    var assert = YAHOO.util.Assert;
+    
+    //-------------------------------------------------------------------------
+    // Base Test Suite
+    //-------------------------------------------------------------------------
+    
+    var suite = new YAHOO.tool.TestSuite("Chained Hash Table Tests");
+    
+    //-------------------------------------------------------------------------
+    // Test Case for adding
+    //-------------------------------------------------------------------------
+    
+    suite.add(new YAHOO.tool.TestCase({
+    
+        name : "insert() Tests",
+
+        setUp: function () {
+            this.hashTable = new ChainedHashTable();
+        },
+        
+        tearDown: function () {
+            delete this.hashTable;
+        },
+
+        //---------------------------------------------------------------------
+        // Tests
+        //---------------------------------------------------------------------
+    
+        testAddSingle: function () {
+            this.hashTable.insert("Hi");
+
+            assert.areEqual(1, this.hashTable.getSize(), "Hash table should have one item.");
+            assert.areEqual("Hi", this.hashTable.lookup("Hi"), "The hash table lookup returns stored value.");
+            assert.isNull(this.hashTable.lookup("Yo"), "A lookup of an unknown item should be null.");
+        },
+
+        testAddMultiple: function () {
+            // TODO
+        }
+
+    }));
+
+    //-------------------------------------------------------------------------
+    // Test Case for removing values
+    //-------------------------------------------------------------------------
+    
+    suite.add(new YAHOO.tool.TestCase({
+    
+        name : "remove() Tests",
+
+        setUp: function () {
+            this.hashTable = new ChainedHashTable();
+        },
+        
+        tearDown: function () {
+            delete this.hashTable;
+        },
+
+        //---------------------------------------------------------------------
+        // Tests
+        //---------------------------------------------------------------------
+
+        // TODO: tests go here.   
+ 
+    }));        
+
+    //-------------------------------------------------------------------------
+    // Test Case for looking up an element
+    //-------------------------------------------------------------------------
+    
+    suite.add(new YAHOO.tool.TestCase({
+    
+        name : "lookup() Tests",
+
+        setUp: function () {
+            this.hashTable = new ChainedHashTable();
+        },
+        
+        tearDown: function () {
+            delete this.hashTable;
+        },
+
+        //---------------------------------------------------------------------
+        // Tests
+        //---------------------------------------------------------------------
+
+        // TODO: tests go here.    
+
+    }));    
+
+    //return it
+    return suite;
+
+}());
+
+(function () {
+    //create the logger
+    var logger = new YAHOO.tool.TestLogger();
+    
+    //add the tests
+    YAHOO.tool.TestRunner.add(YAHOO.test.ChainedHashTable);
+    YAHOO.tool.TestRunner.run();
+
+}());
+
+        </script>
+    </body>
+</html>
