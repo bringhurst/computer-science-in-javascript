@@ -1,21 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
-<head>
-<title>Linked List Tests</title>
-<!-- Combo-handled YUI CSS files: -->
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.7.0/build/logger/assets/logger.css&2.7.0/build/yuitest/assets/testlogger.css">
-<!-- Combo-handled YUI JS files: -->
-<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&2.7.0/build/logger/logger-min.js&2.7.0/build/yuitest/yuitest-min.js"></script>
-<script type="text/javascript" src="linked-list.js"></script>
-
-
-</head>
-<body>
-<h1>Linked List Tests</h1>
-<script type="text/javascript">
+    <head>
+        <title>Linked List Tests</title>
+        <!-- Combo-handled YUI CSS files: -->
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.7.0/build/logger/assets/logger.css&amp;2.7.0/build/yuitest/assets/testlogger.css">
+        <!-- Combo-handled YUI JS files: -->
+        <script src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&amp;2.7.0/build/logger/logger-min.js&amp;2.7.0/build/yuitest/yuitest-min.js"></script>
+        <script src="linked-list.js"></script>
+    </head>
+    <body>
+        <h1>Linked List Tests</h1>
+        <script>
+/*global YAHOO, LinkedList */
 
 YAHOO.namespace("test");
 
-YAHOO.test.LinkedList = (function(){
+YAHOO.test.LinkedList = (function () {
     
     var assert = YAHOO.util.Assert;
     
@@ -33,11 +33,11 @@ YAHOO.test.LinkedList = (function(){
     
         name : "insertNext() Tests",
 
-        setUp: function(){
+        setUp: function () {
             this.list = new LinkedList();
         },
         
-        tearDown: function(){
+        tearDown: function () {
             delete this.list;
         },
 
@@ -45,7 +45,7 @@ YAHOO.test.LinkedList = (function(){
         // Tests
         //---------------------------------------------------------------------
     
-        testAddSingle: function(){
+        testAddSingle: function () {
             this.list.insertNext(null, "Hi");
             
             assert.areEqual(1, this.list.getSize(), "List should have one item.");
@@ -53,7 +53,7 @@ YAHOO.test.LinkedList = (function(){
             assert.isNull(this.list.getHead().next, "The next pointer of the first item should be null.");                    
         },
         
-        testAddMultiple: function(){
+        testAddMultiple: function () {
             this.list.insertNext(this.list.getTail(), "Hi");
             this.list.insertNext(this.list.getTail(), "Yo");
             
@@ -72,14 +72,14 @@ YAHOO.test.LinkedList = (function(){
     
         name : "removeNext() Tests",
 
-        setUp: function(){
+        setUp: function () {
             this.list = new LinkedList();
             this.list.insertNext(this.list.getTail(), "Hi");
             this.list.insertNext(this.list.getTail(), "Yo");
             this.list.insertNext(this.list.getTail(), "Bye");
         },
         
-        tearDown: function(){
+        tearDown: function () {
             delete this.list;
         },
 
@@ -87,7 +87,7 @@ YAHOO.test.LinkedList = (function(){
         // Tests
         //---------------------------------------------------------------------
     
-        testRemoveFirstItem: function(){
+        testRemoveFirstItem: function () {
             var value = this.list.removeNext(null);
             assert.areEqual("Hi", value.data, "Removed item should be 'Hi'.");
             assert.areEqual(2, this.list.getSize(), "There should only be two items left.");
@@ -96,7 +96,7 @@ YAHOO.test.LinkedList = (function(){
             assert.isNull(this.list.getHead().next.next, "Item in position 2 should be null.");
         },
         
-        testRemoveMiddleItem: function() {
+        testRemoveMiddleItem: function () {
             var value = this.list.removeNext(this.list.getHead());
             assert.areEqual("Yo", value.data, "Removed item should be 'Yo'.");
             assert.areEqual(2, this.list.getSize(), "There should only be two items left.");
@@ -114,11 +114,11 @@ YAHOO.test.LinkedList = (function(){
     
         name : "toArray() Tests",
 
-        setUp: function(){
+        setUp: function () {
             this.list = new LinkedList();
         },
         
-        tearDown: function(){
+        tearDown: function () {
             delete this.list;
         },
 
@@ -126,13 +126,13 @@ YAHOO.test.LinkedList = (function(){
         // Tests
         //---------------------------------------------------------------------
     
-        testToArrayForEmptyList: function(){
+        testToArrayForEmptyList: function () {
             var value = this.list.toArray();
             assert.isInstanceOf(Array, value, "Value should be an array.");
             assert.areEqual(0, value.length, "Array should be empty.");
         },
         
-        testToArrayForOneItemList: function(){
+        testToArrayForOneItemList: function () {
             this.list.insertNext(null, "Hi");
             var value = this.list.toArray();
             assert.isInstanceOf(Array, value, "Value should be an array.");
@@ -140,7 +140,7 @@ YAHOO.test.LinkedList = (function(){
             assert.areEqual("Hi", value[0], "The only item should be 'Hi'.");
         },
         
-        testToArrayForTwoItemList: function(){
+        testToArrayForTwoItemList: function () {
             this.list.insertNext(this.list.getTail(), "Hi");
             this.list.insertNext(this.list.getTail(), "Yo");
             var value = this.list.toArray();
@@ -155,9 +155,9 @@ YAHOO.test.LinkedList = (function(){
     //return it
     return suite;
 
-})();
+}());
 
-(function (){
+(function () {
     //create the logger
     var logger = new YAHOO.tool.TestLogger();
     
@@ -165,9 +165,8 @@ YAHOO.test.LinkedList = (function(){
     YAHOO.tool.TestRunner.add(YAHOO.test.LinkedList);
     YAHOO.tool.TestRunner.run();
 
-})();
+}());
 
-
-</script>
-</body>
+        </script>
+    </body>
 </html>
