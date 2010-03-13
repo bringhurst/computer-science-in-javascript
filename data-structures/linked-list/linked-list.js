@@ -150,32 +150,8 @@ LinkedList.prototype = {
             // Update the size of the list itself.
             this._size = this._size - 1;
         }
-    },
 
-    /**
-     * Determines if the specified element is the head of the list.
-     *
-     * The complexity of isHead is O(1).
-     *
-     * @this {LinkedList}
-     * @param {Object} element the element to check.
-     * @return {boolean} true if the element is the head, false otherwise.
-     */
-    isHead: function (element) {
-
-    },
-
-    /**
-     * Determines if the specified element is the tail of the list.
-     *
-     * The complexity if isTail is O(1).
-     *
-     * @this {LinkedList}
-     * @param {Object} element the element to check.
-     * @return {boolean} true if the element is the tail, false otherwise.
-     */
-    isTail: function (element) {
-
+        return oldElement;
     },
 
     /**
