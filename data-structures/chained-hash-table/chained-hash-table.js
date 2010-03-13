@@ -37,21 +37,51 @@
  * @constructor
  */
 function ChainedHashTable(numberOfBuckets, hashFunction, compareFunction) {
+    /**
+     * The number of buckets in this hash table.
+     *
+     * @private
+     * @type {number}
+     */
     this._numberOfBuckets = numberOfBuckets;
+
+    /**
+     * The function used to hash elements in this hash table.
+     *
+     * @private
+     * @type {Function}
+     */
     this._hashFunction = hashFunction;
+
+    /**
+     * The function used to compare keys in this hash table.
+     *
+     * @private
+     * @type {Function}
+     */
     this._compareFunction = compareFunction;
 
-    // A new hash table will not contain any elements.
+    /**
+     * The number of elements in this hash table.
+     *
+     * @private
+     * @type {number}
+     */
     this._size = 0;
 
-    // Setup the array of buckets.
-    this._table = new LinkedList();
+    /**
+     * The array of buckets.
+     *
+     * @private
+     * @type {Array.<LinkedList>}
+     */
+    this._table = [];
 
     // Initialize each bucket.
     var i = this._numberOfBuckets;
 
     while (i > 0) {
-        this._table.add(new LinkedList());
+        this._table.push(new LinkedList());
         i = i - 1;
     }
 }
@@ -79,7 +109,7 @@ ChainedHashTable.prototype = {
         var bucket = this._hashFunction(data) % this._numberOfBuckets;
 
         // Insert the data into the bucket.
-        this._table.item(bucket).add(data);
+        this._table[bucket].insertNext(this._table[bucket].getTail(), data);
     },
 
     /**
@@ -101,10 +131,10 @@ ChainedHashTable.prototype = {
         // Keep track of the previous element as we search.
         var previous = null;
 
-        for (current = this._table.item(bucket); current; current = current.next) {
+        for (current = this._table[bucket].getHead(); current.next; current = current.next) {
             if (this._matchFunction(data, current.data)) {
                 // Remove the data from the bucket.
-                if (this._table.removeNext(previous)) {
+                if (this._table[bucket].removeNext(previous)) {
                     this._size = this._size - 1;
                     return true;
                 } else {
@@ -136,7 +166,7 @@ ChainedHashTable.prototype = {
         var current = null;
 
         // Search for the data in the bucket.
-        for (current = this._table.item(bucket); current; current = current.next) {
+        for (current = this._table[bucket].getHead(); current.next; current = current.next) {
             if (this._matchFunction(data, current.data)) {
                 // Pass the data from the table back.
                 return current.data;
@@ -152,7 +182,7 @@ ChainedHashTable.prototype = {
      * @return {number} the number of elementes contained in the hash table.
      * @this {ChainedHashTable}
      */
-    size: function () {
+    getSize: function () {
         return this._size;
     }
 };
