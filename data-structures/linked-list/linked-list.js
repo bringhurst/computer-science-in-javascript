@@ -111,9 +111,45 @@ LinkedList.prototype = {
      *
      * @this {LinkedList}
      * @param {Object} element the element before the element to be removed.
+     * @return {Object} the data of the element that was removed.
      */
     removeNext: function (element) {
+        var oldElement = null;
 
+        if (this._size === 0) {
+            return null;
+        }
+
+        if (!element) {
+            // Handle removal from the head of the list.
+            oldElement = this._head; 
+            this._head = this._head.next;
+
+            // Update the size of the list itself.
+            this._size = this._size - 1;            
+
+            // Check to see if the tail reference should be updated.
+            if (this._size === 0) {
+                this._tail = null;
+            }
+        } else {
+            // If no element exists after the one specified, just exit.
+            if (!element.next) {
+                return null;
+            }
+
+            // Handle removal after the specified element.
+            oldElement = element.next;
+            element.next = element.next.next;
+
+            // Update the tail element if necessary.
+            if (!element.next) {
+                this._tail = element;
+            }
+
+            // Update the size of the list itself.
+            this._size = this._size - 1;
+        }
     },
 
     /**
