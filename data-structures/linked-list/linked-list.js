@@ -1,3 +1,5 @@
+/*jslint onevar: false, nomen: false */
+
 /*
  * Linked List implementation in JavaScript
  * Copyright (c) 2009 Nicholas C. Zakas
@@ -23,156 +25,137 @@
 
 /**
  * A linked list implementation in JavaScript.
- * @class LinkedList
+ *
+ * The complexity of the list initialization is O(1).
+ *
  * @constructor
  */
 function LinkedList() {
 
     /**
      * The number of items in the list.
-     * @property _length
-     * @type int
+     *
+     * @type {number}
      * @private
      */
-    this._length = 0;
+    this._size = 0;
     
     /**
      * Pointer to first item in the list.
-     * @property _head
-     * @type Object
+     *
+     * @type {Object}
      * @private
      */
     this._head = null;
+
+    /**
+     * Pointer to the last item in the list.
+     *
+     * @type {Object}
+     * @private
+     */
+    this._tail = null;
 }
 
 LinkedList.prototype = {
 
-    //restore constructor
+    // Copy the constructor to this new prototype object.
     constructor: LinkedList,
     
     /**
-     * Appends some data to the end of the list. This method traverses
-     * the existing list and places the value at the end in a new item.
-     * @param {variant} data The data to add to the list.
-     * @return {Void}
-     * @method add
+     * Inserts an element just after element in the list. If the element is
+     * null or undefined, the new element is inserted at the head of the list.
+     *
+     * The complexity of insertNext is O(1).
+     *
+     * @this {LinkedList}
+     * @param {Object} element the element before the new element.
+     * @param {Object} data the new element data to add.
      */
-    add: function (data){
-    
-        //create a new item object, place data in
-        var node = { 
-                data: data, 
-                next: null 
-            },
-            
-            //used to traverse the structure
-            current;
-    
-        //special case: no items in the list yet
-        if (this._head === null){
-            this._head = node;
-        } else {
-            current = this._head;
-            
-            while(current.next){
-                current = current.next;
-            }
-           
-            current.next = node;            
-        }
-        
-        //don't forget to update the count
-        this._length++;
-    
+    insertNext: function (element, data) {
+
     },
-    
+
     /**
-     * Retrieves the data in the given position in the list.
-     * @param {int} index The zero-based index of the item whose value 
-     *      should be returned.
-     * @return {variant} The value in the "data" portion of the given item
-     *      or null if the item doesn't exist.
-     * @method item
+     * Removes the element just after element in the list. If the element is
+     * null or undefined, the element at the head of the list is removed.
+     *
+     * The complexity of removeNext is O(1).
+     *
+     * @this {LinkedList}
+     * @param {Object} element the element before the element to be removed.
      */
-    item: function(index){
-    
-        //check for out-of-bounds values
-        if (index > -1 && index < this._length){
-            var current = this._head,
-                i = 0;
-                
-            while(i++ < index){
-                current = current.next;            
-            }
-        
-            return current.data;
-        } else {
-            return null;
-        }
+    removeNext: function (element) {
+
     },
-    
+
     /**
-     * Removes the item from the given location in the list.
-     * @param {int} index The zero-based index of the item to remove.
-     * @return {variant} The data in the given position in the list or null if
-     *      the item doesn't exist.
-     * @method remove
+     * Determines if the specified element is the head of the list.
+     *
+     * The complexity of isHead is O(1).
+     *
+     * @this {LinkedList}
+     * @param {Object} element the element to check.
+     * @return {boolean} true if the element is the head, false otherwise.
      */
-    remove: function(index){
-    
-        //check for out-of-bounds values
-        if (index > -1 && index < this._length){
-        
-            var current = this._head,
-                previous,
-                i = 0;
-                
-            //special case: removing first item
-            if (index === 0){
-                this._head = current.next;
-            } else {
-        
-                //find the right location
-                while(i++ < index){
-                    previous = current;
-                    current = current.next;            
-                }
-            
-                //skip over the item to remove
-                previous.next = current.next;
-            }
-        
-            //decrement the length
-            this._length--;
-        
-            //return the value
-            return current.data;            
-        
-        } else {
-            return null;
-        }
-    
+    isHead: function (element) {
+
+    },
+
+    /**
+     * Determines if the specified element is the tail of the list.
+     *
+     * The complexity if isTail is O(1).
+     *
+     * @this {LinkedList}
+     * @param {Object} element the element to check.
+     * @return {boolean} true if the element is the tail, false otherwise.
+     */
+    isTail: function (element) {
+
+    },
+
+    /**
+     * Accessor for the head element of the list.
+     *
+     * @this {LinkedList}
+     * @return {Object} the head of the list.
+     */
+    getHead: function () {
+        return this._head;
+    },
+
+    /**
+     * Accessor for the tail element of the list.
+     *
+     * @this {LinkedList}
+     * @return {Object} the tail of the list.
+     */
+    getTail: function () {
+        return this._tail;
     },
     
     /**
      * Returns the number of items in the list.
-     * @return {int} The number of items in the list.
-     * @method size
+     *
+     * @this {LinkedList}
+     * @return {number} the number of items in the list.
      */
-    size: function(){
-        return this._length;
+    getSize: function () {
+        return this._size;
     },
     
     /**
      * Converts the list into an array.
-     * @return {Array} An array containing all of the data in the list.
-     * @method toArray
+     *
+     * @this {LinkedList}
+     * @return {Array.<Object>} an array containing all of the data in the list.
      */
-    toArray: function(){
+    toArray: function () {
         var result = [],
             current = this._head;
         
-        while(current){
+        while (current) {
             result.push(current.data);
             current = current.next;
         }
@@ -182,10 +165,12 @@ LinkedList.prototype = {
     
     /**
      * Converts the list into a string representation.
-     * @return {String} A string representation of the list.
-     * @method toString
+     *
+     * @override
+     * @this {LinkedList}
+     * @return {String} a string representation of the list.
      */
-    toString: function(){
+    toString: function () {
         return this.toArray().toString();
     }
 };
