@@ -105,7 +105,7 @@ ChainedHashTable.prototype = {
             if (this._matchFunction(data, current.data)) {
                 // Remove the data from the bucket.
                 if (this._table.removeNext(previous)) {
-                    this._size = this._size = 1;
+                    this._size = this._size - 1;
                     return true;
                 } else {
                     return false;
