@@ -73,7 +73,34 @@ LinkedList.prototype = {
      * @param {Object} data the new element data to add.
      */
     insertNext: function (element, data) {
+        // Initialize the new element.
+        var newElement = {
+            "data" : data,
+            "next" : null
+        };
 
+        if (!element) {
+            // Update the tail if this is the first element added.
+            if (this._size === 0) {
+                this._tail = newElement;
+            }
+
+            // Handle insertion at the head of the list.
+            newElement.next = this._head;
+            this._head = newElement;
+        } else {
+            // Handle insertion at the tail.
+            if (!element.next) {
+                this._tail = newElement;
+            }
+
+            // Handle insertion after a valid element.
+            newElement.next = element.next;
+            element.next = newElement;
+        }
+
+        // Adjust the size of the list to account for the new element.
+        this._size = this._size + 1;
     },
 
     /**
@@ -118,6 +145,8 @@ LinkedList.prototype = {
     /**
      * Accessor for the head element of the list.
      *
+     * The complexity of getHead is O(1).
+     *
      * @this {LinkedList}
      * @return {Object} the head of the list.
      */
@@ -127,6 +156,8 @@ LinkedList.prototype = {
 
     /**
      * Accessor for the tail element of the list.
+     *
+     * The complexity of getTail is O(1).
      *
      * @this {LinkedList}
      * @return {Object} the tail of the list.
@@ -138,6 +169,8 @@ LinkedList.prototype = {
     /**
      * Returns the number of items in the list.
      *
+     * The complexity of getSize is O(1).
+     *
      * @this {LinkedList}
      * @return {number} the number of items in the list.
      */
@@ -147,6 +180,8 @@ LinkedList.prototype = {
     
     /**
      * Converts the list into an array.
+     *
+     * The complexity of toArray is O(n).
      *
      * @this {LinkedList}
      * @return {Array.<Object>} an array containing all of the data in the list.
